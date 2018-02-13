@@ -1,0 +1,11 @@
+.App {
+  text-align: center
+}
+
+.inputText{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.body {background-color: coral;}
