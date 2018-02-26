@@ -10,7 +10,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <h2>This is the page with Iphones</h2>
+      <h2>This is the page with Ipad</h2>
        
       </div>
     );
