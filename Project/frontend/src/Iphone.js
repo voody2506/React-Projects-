@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Item from './Item'
+import SearchInput, {createFilter} from 'react-search-input'
+
 
 const items = [
   	{
@@ -32,6 +34,7 @@ const items = [
   	}
 
   	]
+const KEYS_TO_FILTERS = ['header','description']
 
 
 class App extends Component {
@@ -43,28 +46,44 @@ constructor(props) {
   super(props);
 
   this.state = {
-
-
-  	
+    searchTerm: ''
   };
+  this.searchUpdated = this.searchUpdated.bind(this)
 }
 
 
+ searchUpdated (term) {
+    this.setState({searchTerm: term})
+  }
+
+
   render() {
+
+    const filteredItems = items.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+
     return (
       <div className="App">
-   		<div>{
-     
-      	items.map((item) => 
+
+      <SearchInput className="search-input" onChange={this.searchUpdated} />
+
+   		{
+      	filteredItems.map((item) => 
+          <div style={{ float: 'left',
+  position: 'relative',
+  width: '50%'}}>
       		<Item header={item.header} description={item.description} image = {item.image} />
+          </div>
       		)
       }
- 
-      	</div>
       
       </div>
     );
   }
+
+
+
 }
+
+
 
 export default App;
