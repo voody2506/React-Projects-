@@ -4,7 +4,9 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Item from './Item'
 import SearchInput, {createFilter} from 'react-search-input'
-
+import Modal from 'react-modal';
+import 'bootstrap/dist/css/bootstrap.css';
+import Cart from './Cart';
 
 const items = [
   	{
@@ -34,6 +36,19 @@ const items = [
   	}
 
   	]
+
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+    
 const KEYS_TO_FILTERS = ['header','description']
 
 
@@ -46,35 +61,92 @@ constructor(props) {
   super(props);
 
   this.state = {
-    searchTerm: ''
+    searchTerm: '',
+    modalIsOpen: false,
+    cartArray:[],
+    modalTitle:''
   };
-  this.searchUpdated = this.searchUpdated.bind(this)
-}
+    this.searchUpdated = this.searchUpdated.bind(this)
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  openModal(e) {
+    this.setState({modalIsOpen: true,modalTitle:e});
+
+    var newArray = this.state.cartArray.slice();    
+    newArray.push(e);   
+    this.setState({cartArray:newArray})
+
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+  }
+
+  closeModal(e) {
+    this.setState({modalIsOpen: false});
+  }
 
 
  searchUpdated (term) {
     this.setState({searchTerm: term})
   }
 
+  delete(e){
+   var array = this.state.cartArray;
+  var index = array.indexOf(e)
+  array.splice(index, 1);
+  this.setState({cartArray: array });
+  }
+
 
   render() {
-
+   
     const filteredItems = items.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
-
+ 
     return (
       <div className="App">
+      <h3>My Personal Cart List</h3>
+        
 
-      <SearchInput className="search-input" onChange={this.searchUpdated} />
+      {
+      this.state.cartArray.map((item) =>
+      <Cart item={item} delete ={this.delete.bind(this,item)}/>
+      )
 
+}
+
+
+      <SearchInput type="text" style={{display: 'flex',alignItems: 'center',width: '800px',margin: '0 auto',marginTop:'40px'}} class="form-control" placeholder="Search" aria-describedby="sizing-addon1" onChange={this.searchUpdated}/>
+
+
+      <h3 style={{marginTop:'40px'}}>Shopping Items</h3>
+
+      
    		{
       	filteredItems.map((item) => 
           <div style={{ float: 'left',
   position: 'relative',
-  width: '50%'}}>
-      		<Item header={item.header} description={item.description} image = {item.image} />
+  width: '50%',marginTop:'40px'}}>
+      		<Item openModal={this.openModal.bind(this,item.header)} header={item.header} description={item.description} image = {item.image} />
           </div>
       		)
       }
+       <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+        {
+            <h3>{this.state.modalTitle} Added to your Personal cart</h3>
+          
+        }
+
+        </Modal>
       
       </div>
     );

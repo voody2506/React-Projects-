@@ -17,7 +17,7 @@ class Item extends Component {
       <div className="caption">
         <h3>{this.props.header}</h3>
         <p>{this.props.description}</p>
-        <p><a href="#" class="btn btn-primary" role="button">Buy</a> <a href="#" class="btn btn-default" role="button">More Info</a></p>
+        <p><a href="#" class="btn btn-primary" role="button" onClick={this.props.openModal}>Buy</a></p>
       		</div>
           </div>
           </div>

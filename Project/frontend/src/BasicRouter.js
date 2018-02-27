@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Mackbook from './Mackbook'
 import Iphone from './Iphone'
 import Ipad from './Ipad'
-
+import Login from './Facever'
 import 'bootstrap/dist/css/bootstrap.css';
 
 var rootStyle = {
@@ -24,6 +24,7 @@ const BasicRouter = () => (
        <a><Link to="/" style={{ color: '#5AC8FA',textDecoration:'none' }}>Iphone</Link></a>
         <a><Link to="/Mackbook" style={{ color: '#5AC8FA',textDecoration:'none' }}>Mackbook</Link></a>
         <a><Link to="/Ipad" style={{ color: '#5AC8FA',textDecoration:'none' }}>Ipad</Link></a>
+        <a><Link to="/Login" style={{ color: '#ff0000',textDecoration:'none' }}>Login</Link></a>
 
        </div>
       </nav>
@@ -32,6 +33,8 @@ const BasicRouter = () => (
       <Route exact path="/" component={Iphone}/>
       <Route exact path="/Mackbook" component={Mackbook} />
       <Route exact path="/Ipad" component={Ipad} />
+      <Route exact path="/Login" component={Login}/>
+
     </div>
   </Router>
 );
