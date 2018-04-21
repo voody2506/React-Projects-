@@ -12,7 +12,8 @@ export default class Item extends React.Component {
   render(){
     return(
       <div className="todoWrapper">
-<button className="btn btn-primary" onClick={(e)=>this.removeTodo(this.props.id)}>remove</button>{this.props.todo.text}
+      <button className="btn btn-primary" onClick={(e)=>this.removeTodo(this.props.id)}>remove</button>{this.props.todo.text}
+      
       </div>
     );
   }

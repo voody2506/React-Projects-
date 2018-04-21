@@ -50,11 +50,7 @@ const people = [
 
 ]
 
-function searchingFor(term){
-	return function(x){
-		return x.first.toLowerCase().includes(term.toLowerCase()) || !term;
-	}
-}
+
 
 export default class contact extends React.Component {
 	constructor(props){
@@ -85,13 +81,19 @@ export default class contact extends React.Component {
     return element.id === event;
   })
 		const name = foundPerson.first
-    this.setState({clickFirst:foundPerson.first})
-    this.setState({clickLast:foundPerson.last})
-    this.setState({clickAge:foundPerson.age})
-		console.log(name)
+    this.setState({
+      clickFirst:foundPerson.first,
+      clickLast:foundPerson.last,
+      clickAge:foundPerson.age
+    })
 	this.setState({modalIsOpen: true});
 	
 	}
+
+  searchingFor(term){
+  return function(x){
+    return x.first.toLowerCase().includes(term.toLowerCase()) || !term;
+  }
 
 	 closeModal() {
     this.setState({modalIsOpen: false});
@@ -108,7 +110,7 @@ export default class contact extends React.Component {
       </div>
       </form>
       {
-      	this.state.people.filter(searchingFor(this.state.term)).map(person =>
+      	this.state.people.filter(this.searchingFor(this.state.term)).map(person =>
       			<div key = {person.id}>
       			<div class = "centerBlock">
       			<ul class="list-group">
